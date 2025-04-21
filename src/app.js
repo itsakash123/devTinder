@@ -1,13 +1,45 @@
 const express=require("express");
 
 const app=express();
-app.use(express.json());
+
 
 // //order of these routes matter a lot
 // app.use("/hello", (req, res) => {
 //   res.send("hello hello hello");
 // });
 
+//these are route handlers
+app.use(
+  "/user1",[
+  (req, res, next) => {
+    console.log("Response 1");
+
+    //res.send("Response 1");
+    next();
+  },
+  (req, res, next) => {
+    console.log("Response 2");
+   // res.send("Response 2");
+    next();
+  },
+  (req, res, next) => {
+    console.log("Response 3");
+    //res.send("Response 3");
+    next();
+  },
+  (req, res,next) => {
+    console.log("Response 4");
+    res.send("Response 4");
+    //next();
+    
+  }
+]);
+app.get("/", (req, res) => {
+  res.send({ firstName: "Akash", lastName: "shiva" });
+});
+app.get("/abc", (req, res) => {
+  res.send({ firstName: "Akash", lastName: "shiva" });
+});
 // app.use("/", (req, res) => {
 //   res.send("hello namaste from the dashboard");
 // });
@@ -32,6 +64,6 @@ app.delete("/user",(req,res)=>{
   res.send("Data deleted successfully")
 })
 
-app.listen(3000,()=>{
-    console.log("server is successfully listening on port 3000....")
+app.listen(3000, () => {
+  console.log("Server is successfully listening on port 3000...");
 });
