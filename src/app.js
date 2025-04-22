@@ -1,38 +1,75 @@
-const express=require("express");
-
-const app=express();
+const express = require("express");
 
 
-// //order of these routes matter a lot
-// app.use("/hello", (req, res) => {
-//   res.send("hello hello hello");
-// });
+const app = express();
+const { adminAuth ,userAuth } = require("./middlewares/auth");
+ 
+
+
+app.use("/admin", adminAuth);
+app.use("/user",userAuth);
+
+//you can directly write auth handler here
+app.get("/user",userAuth,(req,res)=>{
+   res.send("user data sent")
+})
+
+app.get("/admin/getAllData", (req, res) => {
+  res.send("All data sent");
+});
+app.get("/admin/deleteUser", (req, res) => {
+  res.send("All data deleted");
+});
+
+//order of these routes matter a lot
+app.use("/hello", (req, res) => {
+  res.send("hello hello hello");
+});
 
 //these are route handlers
-app.use(
-  "/user1",[
+app.get("/user2", (req, res, next) => {
+  console.log("Handling the route user");
+  next();
+});
+app.get("/user2", (req, res, next) => {
+  console.log("Handling the route user");
+  res.send("2nd route handler ");
+});
+
+//GET/users=>it check for all the app.xxx("matching route:") functions
+//whenever a request come to express js server the job of express js server is to go one by one and goes from top to bottom to all  the handlers and the app. function and try to send  response back if it does not find matching url it hangs up
+//suppose if  you are sending a request to express server it will try to go one by one check all these methods whatever is matching if it is matching it will go and call this function and it will keep on going one after the middlewares till it reaches the function which actually send the response back which is call request handlet
+
+//GET /users =>middleware chain =>request handlet
+app.use("/", (req, res, next) => {
+  //Middlewares
+  //res.send("Handling /route");
+  next();
+});
+app.use("/user1", [
   (req, res, next) => {
+    //Middlewares
     console.log("Response 1");
 
     //res.send("Response 1");
     next();
   },
   (req, res, next) => {
+    //Middlewares
     console.log("Response 2");
-   // res.send("Response 2");
+    // res.send("Response 2");
     next();
   },
   (req, res, next) => {
-    console.log("Response 3");
-    //res.send("Response 3");
-    next();
+    ///request handlet
+    console.log("response 3");
+    res.send("Response 3");
   },
-  (req, res,next) => {
+  (req, res) => {
     console.log("Response 4");
-    res.send("Response 4");
+    //res.send("Response 4");
     //next();
-    
-  }
+  },
 ]);
 app.get("/", (req, res) => {
   res.send({ firstName: "Akash", lastName: "shiva" });
@@ -60,9 +97,11 @@ app.post("/user", (req, res) => {
 app.use("/test", (req, res) => {
   res.send("hello from the server");
 });
-app.delete("/user",(req,res)=>{
-  res.send("Data deleted successfully")
-})
+app.delete("/user", (req, res) => {
+  res.send("Data deleted successfully");
+});
+
+
 
 app.listen(3000, () => {
   console.log("Server is successfully listening on port 3000...");
