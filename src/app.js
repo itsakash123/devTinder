@@ -1,18 +1,15 @@
 const express = require("express");
 
-
 const app = express();
-const { adminAuth ,userAuth } = require("./middlewares/auth");
- 
-
+const { adminAuth, userAuth } = require("./middlewares/auth");
 
 app.use("/admin", adminAuth);
-app.use("/user",userAuth);
+app.use("/user", userAuth);
 
 //you can directly write auth handler here
-app.get("/user",userAuth,(req,res)=>{
-   res.send("user data sent")
-})
+app.get("/user", userAuth, (req, res) => {
+  res.send("user data sent");
+});
 
 app.get("/admin/getAllData", (req, res) => {
   res.send("All data sent");
@@ -20,6 +17,24 @@ app.get("/admin/getAllData", (req, res) => {
 app.get("/admin/deleteUser", (req, res) => {
   res.send("All data deleted");
 });
+app.use("/", (err, req, res, next) => {
+  if (err) {
+    //Log you errors
+    res.status(500).send("Something Went Wrong");
+  }
+});
+
+app.get("/getUserData", (req, res) => {
+  try {
+    throw new Error("abcd");
+
+    res.send("User Data Sent");
+  } catch (err) {
+     res.status(500).send("Something Went Wrong contact support team");
+  }
+  
+});
+
 
 //order of these routes matter a lot
 app.use("/hello", (req, res) => {
@@ -100,8 +115,6 @@ app.use("/test", (req, res) => {
 app.delete("/user", (req, res) => {
   res.send("Data deleted successfully");
 });
-
-
 
 app.listen(3000, () => {
   console.log("Server is successfully listening on port 3000...");
