@@ -1,7 +1,42 @@
 const express = require("express");
-
+const connectDB=require("./config/database");
 const app = express();
 const { adminAuth, userAuth } = require("./middlewares/auth");
+const User=require("./models/user")
+
+app.post("/signup", async(req,res)=>{
+  //creating a new instance of user model
+  const user = new User({
+    firstName: "Prem",
+    lastName: "Kumar",
+    emailId: "Prem123@gmail.com",
+    password: "Prem@123",
+    
+  });
+  try{
+
+    await user.save();
+  res.send("User added successfully")
+  }catch(err){
+    res.status(400).send("Error saving the user :" +err.message)
+  }
+  
+})
+
+
+
+
+connectDB()
+  .then(() => {
+    console.log("Database connection established");
+    app.listen(3000, () => {
+      console.log("Server is successfully listening on port 3000...");
+    });
+  })
+  .catch((err) => {
+    console.log("Database cannot be established");
+  });
+
 
 app.use("/admin", adminAuth);
 app.use("/user", userAuth);
@@ -116,6 +151,4 @@ app.delete("/user", (req, res) => {
   res.send("Data deleted successfully");
 });
 
-app.listen(3000, () => {
-  console.log("Server is successfully listening on port 3000...");
-});
+
