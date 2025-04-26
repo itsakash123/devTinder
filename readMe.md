@@ -30,3 +30,12 @@
 
 - Add the express.json middleware to your app
 - Make your signup API dynamic to receive data from the end user
+ -API -get user bt email
+ - API - feed API -get all the users from the database;
+ - Create a delete user API
+- update the user with emailId;
+
+-add required,unique,trim,min,lowercase,minLength
+-Add default
+- Create a custom validate function for gender
+-Add timestamps to userSchema
