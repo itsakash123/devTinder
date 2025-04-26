@@ -4,23 +4,24 @@ const app = express();
 const { adminAuth, userAuth } = require("./middlewares/auth");
 const User=require("./models/user")
 
-app.post("/signup", async(req,res)=>{
-  //creating a new instance of user model
-  const user = new User({
-    firstName: "Prem",
-    lastName: "Kumar",
-    emailId: "Prem123@gmail.com",
-    password: "Prem@123",
-    
-  });
-  try{
 
+//it reads json object  adnd convert into js object and adds js object back to this request object in the body 
+app.use(express.json()); //its a middleware
+
+app.post("/signup", async(req,res)=>{
+
+  // console.log(req.body);
+
+  //creating a new instance of user model
+  
+  const user = new User(req.body);
+  try{
+   //saving data to the database
     await user.save();
   res.send("User added successfully")
   }catch(err){
     res.status(400).send("Error saving the user :" +err.message)
   }
-  
 })
 
 
@@ -114,6 +115,7 @@ app.use("/user1", [
     ///request handlet
     console.log("response 3");
     res.send("Response 3");
+    mext();
   },
   (req, res) => {
     console.log("Response 4");

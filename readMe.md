@@ -21,3 +21,12 @@
 - Connect your pplicstion to the Databse "connection-url"/devTinder
 - call the connectDB function and connect to database before starting application on 3000
 - Create a userSchema and user Model
+
+- cluster ->Database->collection->documents ->fields 
+
+- Create a POST /signup API to add data to the database
+- push some documents using API calls from postman
+- Error Handling using try catch
+
+- Add the express.json middleware to your app
+- Make your signup API dynamic to receive data from the end user
