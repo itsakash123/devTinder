@@ -39,3 +39,9 @@
 -Add default
 - Create a custom validate function for gender
 -Add timestamps to userSchema
+
+-Add API level validation on Patch request & SignUp post api
+- DATA Sanitizing-Add api validation for each field
+
+- Install validator npm
+-Explore validator library functions and use Validator functions for password ,email,photoURL
