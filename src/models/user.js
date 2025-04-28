@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       validate(value) {
         if (!validator.isStrongPassword(value)) {
-          throw new Error("Enter a strong password")
+          throw new Error("Enter a strong password" + value)
         }
       },
     },
@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       validate(value) {
         if (!["male", "female", "others"].includes(value)) {
-          throw new Error("Gender data is not valid"+value);
+          throw new Error("Gender data is not valid" + value);
         }
       },
     },
