@@ -1,63 +1,31 @@
 const express = require("express");
 const connectDB = require("./config/database");
 const app = express();
-const { adminAuth, userAuth } = require("./middlewares/auth");
+// const { adminAuth, userAuth } = require("./middlewares/auth");
 const User = require("./models/user");
-const { validateSignUpData } = require("./utils/validation");
+
 const bcrypt = require("bcrypt");
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
 
-//it reads json object  adnd convert into js object and adds js object back to this request object in the body
+
+//it reads json object  and convert into js object and adds js object back to this request object in the body
 app.use(express.json()); //its a middleware
+app.use(cookieParser());
 
-app.post("/signup", async (req, res) => {
-  try {
-    // Validation of data
-    validateSignUpData(req);
-    // Encrypt the password
+const authRouter=require("./routes/auth");
+const profileRouter=require("./routes/profile")
+const requestRouter = require("./routes/requests");
 
-    const {firstName,lastName,emailId, password } = req.body;
+app.use("/",authRouter);
+app.use("/",profileRouter);
+app.use("/",requestRouter);
 
-    const passwordHash = await bcrypt.hash(password, 10);
-    console.log(passwordHash);
 
-    // console.log(req.body);
 
-    //creating a new instance of user model
 
-    const user = new User({
-      firstName,
-      lastName,
-      emailId,
-      password: passwordHash,
-    });
 
-    //saving data to the database
-    await user.save();
-    res.send("User added successfully");
-  } catch (err) {
-    res.status(400).send("ERROR :" + err.message);
-  }
-});
-app.post("/login",async (req,res)=>{
-  try {
-    const {emailId,password}=req.body;
 
-    const user=await User.findOne({emailId:emailId});
-    if(!user){
-      throw new Error("Invalid Credentials")
-    }
-    
-    const isPasswordValid= await bcrypt.compare(password,user.password)
-    if(isPasswordValid){
-      res.send("Login Successful!!")
-    }
-    else{
-      res.send("Invalid Credentials")
-    }
-  } catch (err) {
-    res.status(400).send("ERROR :" + err.message);
-  }
-})
 
 // Get User by email
 app.get("/user", async (req, res) => {
@@ -153,20 +121,20 @@ connectDB()
     console.log("Database cannot be established");
   });
 
-app.use("/admin", adminAuth);
-app.use("/user", userAuth);
+// app.use("/admin", adminAuth);
+// app.use("/user", userAuth);
 
 //you can directly write auth handler here
-app.get("/user", userAuth, (req, res) => {
-  res.send("user data sent");
-});
+// app.get("/user", userAuth, (req, res) => {
+//   res.send("user data sent");
+// });
 
-app.get("/admin/getAllData", (req, res) => {
-  res.send("All data sent");
-});
-app.get("/admin/deleteUser", (req, res) => {
-  res.send("All data deleted");
-});
+// app.get("/admin/getAllData", (req, res) => {
+//   res.send("All data sent");
+// });
+// app.get("/admin/deleteUser", (req, res) => {
+//   res.send("All data deleted");
+// });
 app.use("/", (err, req, res, next) => {
   if (err) {
     //Log you errors

@@ -1,4 +1,64 @@
--whenever you type some url you are making get API call to this route on our server ex https://localhost3000/xyz
+1-create an account
+2-login
+3-update your profilw
+4-Feed Page-explore (giving you the data of other users)
+5-send connection request
+6-see our matches
+7-see the request we have sent/recieved
+
+LLD
+# DB Design
+
+- User Collection - stores only user Data like -firstName lastName emailID password
+- Connection Request -from UserID  -toUserID  -status=PENDING
+
+# API DESIGN (REST API)
+ you have a frontend application and backend application how frontend will communicate with backend application 
+
+ for example -frontend have emailID ,password it will call /login API in backend.this login api will talk to the database  and see whether emailID ,password exist  or not then login api will send the response it can be failed or success
+
+ email,passoword-> /login api ->database(request)
+ database->loginAPI->email,password(response)
+
+
+# REST API'S
+  CRUD OPERATIONS 
+
+ GET -> TO GET DATA ROM THE DATABASE  /PROFILE  /REQUESTS   /CONNECTIONS
+
+ POST ->PUT SOME DATA IN THE DATABASE  /SIGN UP  /LOGIN  /SEND REQUEST   /REVIEW REQUEST(ACCEPT OR REJECT)
+
+PATCH AND PUT ->UPDATE THE DATA  /PROFILE
+
+ DELETE ->DELETE THE DATA
+
+
+-npm init ->initilaize project
+-make src folder -> app.js
+install express js  
+whenever you write npm i express.js it gets the code  from the intenet and put into nodemodules so we can use it
+
+express - 4.19.3 (major.minor.patch)
+minor is backend compatible and major is breaking change.be careful with major change
+
+^4.19.3 if tomorrow new update comes 4.x.x then my project will be autoupdate
+
+
+
+when you listen() on the server you accept incoming request
+app.listen(3000) 3000 is port
+
+nodemon automatically refresh the server
+
+we will be using express js for creating the server
+
+- order of routes matter a lot
+
+
+
+
+
+- whenever you type some url you are making get API call to this route on our server ex https://localhost3000/xyz
 
 -for testing our API broswer is not a good way there is a software Postman
 
@@ -35,8 +95,8 @@
  - Create a delete user API
 - update the user with emailId;
 
--add required,unique,trim,min,lowercase,minLength
--Add default
+- Add required,unique,trim,min,lowercase,minLength
+- Add default
 - Create a custom validate function for gender
 -Add timestamps to userSchema
 
@@ -44,11 +104,45 @@
 - DATA Sanitizing-Add api validation for each field
 
 - Install validator npm
--Explore validator library functions and use Validator functions for password ,email,photoURL
--Never Trust req.body
+- Explore validator library functions and use Validator functions for password ,email,photoURL
+- Never Trust req.body
 
--validate data in signup API
+- validate data in signup API
 - Install bcrypt package
 - Create password Hash using bcrypt.hash & save the user with encrypted password
 - Create Login API 
--Compare password and throw errors if email or password is invalid
+- Compare password and throw errors if email or password is invalid
+
+
+- whenever  a user is login in , server will create a token ( json web token)attached it in to a cokkie and send back in the response now that cookie will be stored by browser and  any req that is coming back next, that cokkie will be send along and we will validate it once again and do anything whatever we want
+
+- to read the cookie we need a middleware cookie parser from npm
+
+whenver you are login in  as soon as you hit login api It will set token inside cookie and will give youu the cookie now it is job of the client (browser)  the job of browser is to read the cookie and keep it safely whenever i am requesting any other api call please send back the cookie whenever i am making any other api call
+- Install cookie parser
+- just send dummy cookie to user
+- Create GET /profile API and check if you get cookie back
+- Install json web token
+- In login API after email and password verification ,create a JWT token and send it to user inside cookies
+- read the cookie inside your profile API and find the logged in user
+- userAuth Middleware
+- Add the userAuth middleware in profile API and a new sendConnectionRequest API
+- Set the expiry of JWT token and cookies to 7 days;
+- Create userchema  method to getJWT();
+
+- Group multiple routes under respective routes
+- Create routes folder for managing auth,profile,request routers
+- Create authRouter ,ProfileRouter, requestRouter 
+- Import these router in app.js
+- Create POST /logout API
+- Create PATCH/profile/edit
+-Make vakidate all data in every POST,PATCH api
+-create connection request schema
+-send connection request API
+
+
+
+
+
+
+

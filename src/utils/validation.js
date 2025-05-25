@@ -2,7 +2,7 @@ const validator=require('validator');
 const validateSignUpData=(req)=>{
     const {firstName,lastName,emailId,password}=req.body;
 
-    if(!firstName || lastName){
+    if(!firstName || !lastName){
         throw new Error ("Name is not valid");
     }
     
@@ -13,6 +13,13 @@ const validateSignUpData=(req)=>{
         throw new Error("Please enter a strong password")
     }
 };
+const validateProfileEditData =(req)=>{
+    const allowedEditFields=["firstName","lastName","emailId","photoUrl","gender","age","skills","about"];
+    const isEditAllowed=Object.keys(req.body).every(fields=>
+        allowedEditFields.includes(fields)
+    )
+    return isEditAllowed;
+}
 module.exports={
-    validateSignUpData
+    validateSignUpData,validateProfileEditData
 }
