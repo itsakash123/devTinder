@@ -1,6 +1,7 @@
-1-create an account
+ # How Project should look like?
+1-Create an account
 2-login
-3-update your profilw
+3-update your profile
 4-Feed Page-explore (giving you the data of other users)
 5-send connection request
 6-see our matches
