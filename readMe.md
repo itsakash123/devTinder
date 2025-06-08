@@ -1,11 +1,11 @@
  # How Project should look like?
-1-Create an account
-2-login
-3-update your profile
-4-Feed Page-explore (giving you the data of other users)
-5-send connection request
-6-see our matches
-7-see the request we have sent/recieved
+-  Create an account
+- login
+- update your profile
+- Feed Page-explore (giving you the data of other users)
+- send connection request
+- see our matches
+- see the request we have sent/recieved
 
 LLD
 # DB Design
