@@ -10,11 +10,18 @@ authRouter.post("/signup", async (req, res) => {
     // Validation of data
     validateSignUpData(req);
     // Encrypt the password
-
     const { firstName, lastName, emailId, password } = req.body;
 
+    // Check if user with this email already exists
+    const existingUser = await User.findOne({ emailId });
+    if (existingUser) {
+      return res.status(400).send("Email already exists. Please login.");
+    }
+
+    
+
     const passwordHash = await bcrypt.hash(password, 10);
-    console.log(passwordHash);
+    //console.log(passwordHash);
 
     // console.log(req.body);
 
@@ -28,8 +35,13 @@ authRouter.post("/signup", async (req, res) => {
     });
 
     //saving data to the database
-    await user.save();
-    res.send("User added successfully");
+    const savedUser=await user.save();
+    const token = await savedUser.getJWT();
+
+    res.cookie("token", token, {
+      expires: new Date(Date.now() + 8 * 3600000),
+    });
+    res.json({message:"User added successfully",data:savedUser});
   } catch (err) {
     res.status(400).send("ERROR :" + err.message);
   }
@@ -54,9 +66,9 @@ authRouter.post("/login", async (req, res) => {
 
       //Add the token to cookie and send the response back to the user
 
-      res.send("Login Successful!!");
+      res.send(user);
     } else {
-      res.send("Invalid Credentials");
+      res.status(400).send("Invalid Credentials");
     }
   } catch (err) {
     res.status(400).send("ERROR :" + err.message);

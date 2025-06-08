@@ -8,17 +8,17 @@
 
 # profileRouter
 - GET /Profile/view
-- PATCH /profile/edit
+- POST /profile/edit
 - PATCH /profile/password
 
 
 # connectionRequestRouter
-- POST /request/send/:status/:userId
+- POST /request/send/:status/:userId(ignore and interested)
+
+- POST /request/review/:status/:userId  (accepted or rejected)
 
 
 
-- POST /request/review/accepted/:requestId
-- POST /requesr/review/rejected/:requestId
 
 
 # userRouter

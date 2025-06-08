@@ -135,10 +135,35 @@ whenver you are login in  as soon as you hit login api It will set token inside 
 - Create authRouter ,ProfileRouter, requestRouter 
 - Import these router in app.js
 - Create POST /logout API
-- Create PATCH/profile/edit
+- Create PATCH /profile/edit
 -Make vakidate all data in every POST,PATCH api
 -create connection request schema
 -send connection request API
+
+- POST VS GET  
+- POST API  means user is trying to enter some data into database 
+we have to verify everthing that is coming in our database
+user can malicuously enter wrong data in databse
+-GET API means i am trying to fetch data from database
+in GET API you are sure what you are sending back to the user
+
+- Create GET /user/requests/recieved with all the checks
+- Create GET /user/connections
+
+- Create GET /feed API
+ explore $or, $min , $and and other query operators
+
+
+ /feed?page=1&limit=10 => 1-10 => .skip(0) & .limit(10)
+
+ /feed?page=2&limit=10 => 11-20 => .skip(10) & .limit(10)
+
+ /feed?page=3&limit=10 => 21 -30 => .skip(20) & .limit(10)
+
+ skip= (page-1)*limit
+
+ .skip() & .limit()
+
 
 
 

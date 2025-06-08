@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       lowercase: true,
       required: true,
-      unique: true,
+      unique:true,
       trim: true,
       validate(value) {
         if (!validator.isEmail(value)) {
@@ -42,19 +42,18 @@ const userSchema = new mongoose.Schema(
     gender: {
       type: String,
       enum: {
-        values: ["male", "female", "other"],
+        values: ["Male", "Female", "Others"],
         message: `{VALUE} is not a valid gender type`,
       },
       // validate(value) {
-      //   if (!["male", "female", "others"].includes(value)) {
+      //   if (!["Male", "Female", "Others"].includes(value)) {
       //     throw new Error("Gender data is not valid" + value);
       //   }
       // },
     },
     photoURL: {
       type: String,
-      default:
-        "https://manmohinihealthcare.com/wp-content/uploads/2019/07/dummy-user.jpg",
+      default: "https://geographyandyou.com/images/user-profile.png",
       validate(value) {
         if (!validator.isURL(value)) {
           throw new Error("Invalid Photo URL" + value);

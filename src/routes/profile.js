@@ -12,7 +12,7 @@ profileRouter.get("/profile/view", userAuthentication, async (req, res) => {
   }
 });
 
-profileRouter.patch("/profile/edit", userAuthentication, async (req, res) => {
+profileRouter.post("/profile/edit", userAuthentication, async (req, res) => {
   try {
     if (!validateProfileEditData(req)) {
       throw new Error("Invalid Edit Request");
